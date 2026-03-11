@@ -2,6 +2,23 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 import os
 
+# Import database engine and Base
+from core.database import engine, Base
+
+# Import models so SQLAlchemy knows about them
+from models import (
+    user,
+    movie,
+    theatre,
+    screen,
+    show,
+    seat,
+    booking,
+    payment,
+    review,
+    notification
+)
+
 from api import (
     auth,
     movies,
@@ -22,6 +39,9 @@ app = FastAPI(
     title="Movie Ticket Backend",
     version="1.0.0"
 )
+
+# 🔹 CREATE DATABASE TABLES
+Base.metadata.create_all(bind=engine)
 
 # Create uploads directory if it doesn't exist
 if not os.path.exists("uploads"):
