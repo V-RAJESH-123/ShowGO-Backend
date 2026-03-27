@@ -91,4 +91,4 @@ def payment_webhook(
 
     db.commit()
 
-    return {"message": "Payment verified and booking confirmed"}
+    return {"message": "Booking confirmed"}
