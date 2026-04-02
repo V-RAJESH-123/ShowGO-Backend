@@ -20,7 +20,27 @@ jobs:
           script: |
             set -e
 
-            cd /home/ubuntu/Two-heartes
+            APP_DIR="$(sudo systemctl show -p WorkingDirectory --value movieapp 2>/dev/null || true)"
+
+            if [ -z "$APP_DIR" ]; then
+              for candidate in /home/ubuntu/Two-heartes /home/ubuntu/ShowGO-Backend; do
+                if [ -d "$candidate" ]; then
+                  APP_DIR="$candidate"
+                  break
+                fi
+              done
+            fi
+
+            if [ -z "$APP_DIR" ]; then
+              echo "Could not determine backend directory."
+              echo "Checked movieapp WorkingDirectory and common paths:"
+              echo "  - /home/ubuntu/Two-heartes"
+              echo "  - /home/ubuntu/ShowGO-Backend"
+              exit 1
+            fi
+
+            echo "Using backend directory: $APP_DIR"
+            cd "$APP_DIR"
 
             echo " Pulling latest code..."
             git pull origin main
