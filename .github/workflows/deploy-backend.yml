@@ -18,7 +18,9 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/ShowGO-Backend || exit
+            set -e
+
+            cd /home/ubuntu/Two-heartes
 
             echo " Pulling latest code..."
             git pull origin main
